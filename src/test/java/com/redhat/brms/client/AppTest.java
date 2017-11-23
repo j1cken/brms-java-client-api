@@ -33,7 +33,14 @@ public class AppTest {
     static String username = "admin";
     static String password = "admin123";
     String container = "project1";
-    String session = "myStatelessSession";
+    /**
+     * stateless Session
+     */
+        String session = "myStatelessSession";
+    /**
+     * stateful Session
+     */
+//    String session = "myKieSession";
 
     @BeforeClass
     public static void setUpBRMSConnection() {
@@ -98,6 +105,8 @@ public class AppTest {
 
     private void assertResults(ServiceResponse<ExecutionResults> response, String expected) {
         Assert.assertNotNull("response is null", response.getResult());
+
+        Assert.assertEquals("no housekeeping of session objects", 4, ((ArrayList) response.getResult().getValue("result")).size());
 
         ((ArrayList) response.getResult().getValue("result")).stream().filter(new Predicate() {
             @Override
